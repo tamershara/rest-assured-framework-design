@@ -14,7 +14,7 @@ public class DeleteTodoTest {
 
         String requestBody = """
                 {
-                  "email": "testautomation28@gmail.com",
+                  "email": "testautomation118@gmail.com",
                   "password": "test1234",
                   "firstName": "Test",
                   "lastName": "automation"
@@ -43,6 +43,7 @@ public class DeleteTodoTest {
         given()
                 .baseUri("https://todo.qacart.com/api/v1")
                 .contentType(ContentType.JSON)
+                .header("authorization", "Bearer " + accessToken)
                 .body(addTodoRequestBody)
                 .when()
                 .post("/tasks")
