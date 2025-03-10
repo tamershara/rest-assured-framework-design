@@ -30,8 +30,10 @@ public class DeleteTodoTest {
                 .then()
                 .extract().response();
 
+
         //Extract the access token
         String accessToken = registerResponse.path("access_token");
+
 
         //Add Todo using API
         String addTodoRequestBody = """
@@ -40,6 +42,7 @@ public class DeleteTodoTest {
                     "isCompleted": false
                 }
                 """;
+
         Response addTodoResponse = given()
                 .baseUri("https://todo.qacart.com/api/v1")
                 .contentType(ContentType.JSON)
@@ -49,10 +52,12 @@ public class DeleteTodoTest {
                 .post("/tasks")
                 .then().extract().response();
 
+
         //Extract the todoID
         String todoID = addTodoResponse.path("_id");
-        //Delete TODO
 
+
+        //Delete TODO
         Response deleteTodoResponse = given()
                 .baseUri("https://todo.qacart.com/api/v1")
                 .auth().oauth2(accessToken)
