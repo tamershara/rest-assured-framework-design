@@ -15,7 +15,7 @@ public class DeleteTodoTest {
 
         String requestBody = """
                 {
-                  "email": "testautomation118@gmail.com",
+                  "email": "testautomation12118@gmail.com",
                   "password": "test1234",
                   "firstName": "Test",
                   "lastName": "automation"
@@ -33,7 +33,6 @@ public class DeleteTodoTest {
         //Extract the access token
         String accessToken = registerResponse.path("access_token");
 
-        Header authorizationHeader = new Header("Authorization", "Bearer " + accessToken);
         //Add Todo using API
         String addTodoRequestBody = """
                 {
@@ -44,7 +43,7 @@ public class DeleteTodoTest {
         given()
                 .baseUri("https://todo.qacart.com/api/v1")
                 .contentType(ContentType.JSON)
-                .header(authorizationHeader)
+                .auth().oauth2(accessToken)
                 .body(addTodoRequestBody)
                 .when()
                 .post("/tasks")
