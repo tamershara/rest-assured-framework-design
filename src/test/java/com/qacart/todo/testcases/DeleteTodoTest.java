@@ -1,6 +1,7 @@
 package com.qacart.todo.testcases;
 
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
@@ -31,8 +32,8 @@ public class DeleteTodoTest {
 
         //Extract the access token
         String accessToken = registerResponse.path("access_token");
-        System.out.println(accessToken);
 
+        Header authorizationHeader = new Header("Authorization", "Bearer " + accessToken);
         //Add Todo using API
         String addTodoRequestBody = """
                 {
@@ -43,7 +44,7 @@ public class DeleteTodoTest {
         given()
                 .baseUri("https://todo.qacart.com/api/v1")
                 .contentType(ContentType.JSON)
-                .header("authorization", "Bearer " + accessToken)
+                .header(authorizationHeader)
                 .body(addTodoRequestBody)
                 .when()
                 .post("/tasks")
