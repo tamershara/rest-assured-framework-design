@@ -2,6 +2,7 @@ package com.qacart.todo.testcases;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -14,7 +15,7 @@ public class DeleteTodoTest {
 
         String requestBody = """
                 {
-                  "email": "testautomation12918@gmail.com",
+                  "email": "testautomation8829908@gmail.com",
                   "password": "test1234",
                   "firstName": "Test",
                   "lastName": "automation"
@@ -51,14 +52,18 @@ public class DeleteTodoTest {
         //Extract the todoID
         String todoID = addTodoResponse.path("_id");
         //Delete TODO
-        given()
+
+        Response deleteTodoResponse = given()
                 .baseUri("https://todo.qacart.com/api/v1")
                 .auth().oauth2(accessToken)
                 .pathParam("todoID",todoID)
                 .when()
-                .delete("/tasks/{id}")
-                .then().log().all();
+                .delete("/tasks/{todoID}")
+                .then().extract().response();
 
         //Assertion
+
+        Assert.assertEquals(deleteTodoResponse.statusCode(),200);
+        Assert.assertEquals(deleteTodoResponse.path("item"),"todo");
     }
 }
