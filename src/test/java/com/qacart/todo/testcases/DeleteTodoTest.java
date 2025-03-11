@@ -5,9 +5,9 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static com.qacart.todo.clients.TodoClient.addTodoAPI;
+import static com.qacart.todo.api_steps.TodoSteps.addTodoStep;
+import static com.qacart.todo.api_steps.UserSteps.registerUser;
 import static com.qacart.todo.clients.TodoClient.deleteTodoAPI;
-import static com.qacart.todo.clients.UserClient.registerAPI;
 
 public class DeleteTodoTest {
 
@@ -20,26 +20,17 @@ public class DeleteTodoTest {
                 .setLastName("Automation")
                 .setPassword("Test1234")
                 .build();
-        Response registerResponse  = registerAPI(user);
 
 
-        //Extract the access token
-
-        UserResponse userResponse = registerResponse.as(UserResponse.class);
-        String accessToken = userResponse.getAccess_token();
-
+        String accessToken = registerUser(user);
         //Add Todo using API
         TodoItem todoItem = TodoItem.builder()
                 .setItem("Learn java")
                 .setIsCompleted(false).build();
 
-        Response addTodoResponse = addTodoAPI(todoItem,accessToken);
-
-        //Extract the todoID
-        AddTodoItemResponse addTodoItemResponse = addTodoResponse.as(AddTodoItemResponse.class);
-
+        String todoID = addTodoStep(todoItem,accessToken);
         //Delete TODO
-        Response deleteResponse = deleteTodoAPI(addTodoItemResponse.get_id(),accessToken);
+        Response deleteResponse = deleteTodoAPI(todoID,accessToken);
 
         //Assertion
 
