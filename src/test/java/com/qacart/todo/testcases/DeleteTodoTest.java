@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import static com.qacart.todo.api_steps.TodoSteps.addTodoStep;
 import static com.qacart.todo.api_steps.UserSteps.registerUser;
 import static com.qacart.todo.clients.TodoClient.deleteTodoAPI;
+import static com.qacart.todo.utills.TestDataUtils.getRandomEmail;
 
 public class DeleteTodoTest {
 
@@ -15,7 +16,7 @@ public class DeleteTodoTest {
     void shouldBeAbleToDeleteTodo() {
         //Register using API
         User user = User.builder()
-                .setEmail("TestAutomationee83@gmail.com")
+                .setEmail(getRandomEmail())
                 .setFirstName("Test")
                 .setLastName("Automation")
                 .setPassword("Test1234")
