@@ -10,13 +10,12 @@ import static com.qacart.todo.api_steps.UserSteps.registerUser;
 import static com.qacart.todo.clients.TodoClient.deleteTodoAPI;
 import static com.qacart.todo.fixures.TodoFixture.createDefaultTodo;
 import static com.qacart.todo.fixures.UserFixtures.createDefaultUser;
-import static com.qacart.todo.utills.TestDataUtils.getRandomEmail;
 
 public class DeleteTodoTest {
 
     @Test
     void shouldBeAbleToDeleteTodo() {
-        //Register user
+        //Register using API
         String accessToken = registerUser(createDefaultUser());
         //Add Todo using API
         TodoItem todoItem = createDefaultTodo();
