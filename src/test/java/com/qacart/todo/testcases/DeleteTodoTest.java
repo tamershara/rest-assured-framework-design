@@ -1,12 +1,13 @@
 package com.qacart.todo.testcases;
 
 import com.qacart.todo.models.*;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
+import static com.qacart.todo.clients.TodoClient.addTodoAPI;
+import static com.qacart.todo.clients.TodoClient.deleteTodoAPI;
+import static com.qacart.todo.clients.UserClient.registerAPI;
 
 public class DeleteTodoTest {
 
@@ -14,19 +15,12 @@ public class DeleteTodoTest {
     void shouldBeAbleToDeleteTodo() {
         //Register using API
         User user = User.builder()
-                .setEmail("TestAutomation2d790ds3@gmail.com")
+                .setEmail("TestAutomation2d790dsiu93@gmail.com")
                 .setFirstName("Test")
                 .setLastName("Automation")
                 .setPassword("Test1234")
                 .build();
-        Response registerResponse  = given()
-                .baseUri("https://todo.qacart.com/api/v1")
-                .body(user)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/users/register")
-                .then()
-                .extract().response();
+        Response registerResponse  = registerAPI(user);
 
 
         //Extract the access token
@@ -39,27 +33,13 @@ public class DeleteTodoTest {
                 .setItem("Learn java")
                 .setIsCompleted(false).build();
 
-        Response addTodoResponse = given()
-                .baseUri("https://todo.qacart.com/api/v1")
-                .contentType(ContentType.JSON)
-                .auth().oauth2(accessToken)
-                .body(todoItem)
-                .when()
-                .post("/tasks")
-                .then().extract().response();
-
+        Response addTodoResponse = addTodoAPI(todoItem,accessToken);
 
         //Extract the todoID
         AddTodoItemResponse addTodoItemResponse = addTodoResponse.as(AddTodoItemResponse.class);
 
         //Delete TODO
-        Response deleteResponse = given()
-                .baseUri("https://todo.qacart.com/api/v1")
-                .auth().oauth2(accessToken)
-                .pathParam("todoID",addTodoItemResponse.get_id())
-                .when()
-                .delete("/tasks/{todoID}")
-                .then().extract().response();
+        Response deleteResponse = deleteTodoAPI(addTodoItemResponse.get_id(),accessToken);
 
         //Assertion
 
