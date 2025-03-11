@@ -15,7 +15,7 @@ public class DeleteTodoTest {
     void shouldBeAbleToDeleteTodo() {
         //Register using API
         User user = User.builder()
-                .setEmail("TestAutomation2d790dsiu93@gmail.com")
+                .setEmail("TestAutomationee83@gmail.com")
                 .setFirstName("Test")
                 .setLastName("Automation")
                 .setPassword("Test1234")
